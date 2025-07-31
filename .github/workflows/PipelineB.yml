@@ -1,1 +1,14 @@
-#Task B
+name: Workflow B
+'on':
+  workflow_run:
+    workflows:
+      - Workflow A
+    types:
+      - completed
+jobs:
+  dependent-job:
+    if: '${{ github.event.workflow_run.conclusion == ''success'' }}'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Triggered by Workflow A
+        run: echo "Workflow B triggered because Workflow A succeeded"
